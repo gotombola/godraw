@@ -59,17 +59,22 @@ func assignOneOccurenceOfTheBunchToTheTicket(bunch Bunch, ticket Ticket,
 func computeWinners(tickets []Ticket, bunches []Bunch) []Winner {
 	var winners []Winner
 	giftCounter := len(bunches)
-	var ticketNumber, bunchNumber, counter = rand.Intn(len(tickets) - 1), 0, 0
+	n := len(tickets)
+	ticketNumber := 0
+	if n > 1 {
+		ticketNumber = rand.Intn(n - 1)
+	}
+	var bunchNumber, counter = 0, 0
 	quantity := -1
 	var winner Winner
-	for ; counter < giftCounter && counter < len(tickets); ticketNumber++ {
+	for ; counter < giftCounter && counter < n; ticketNumber++ {
 		counter, bunchNumber, giftCounter, quantity, ticketNumber, winner =
 			assignOneOccurenceOfTheBunchToTheTicket(bunches[bunchNumber],
 				tickets[ticketNumber], counter, giftCounter, bunchNumber, ticketNumber, quantity)
 		if winner.T != "" {
 			winners = append(winners, winner)
 		}
-		if ticketNumber+1 == len(tickets) {
+		if ticketNumber+1 == n {
 			ticketNumber = -1
 		}
 	}

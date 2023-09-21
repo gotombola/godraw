@@ -4,6 +4,19 @@ import (
 	"testing"
 )
 
+func Test_1T_1B_1Q_1W(t *testing.T) {
+	testNum := 1
+	test := Data{
+		Tickets: []Ticket{{Data: "a", Id: "1"}},
+		Bunches: []Bunch{{Data: "toy1", Nb: 1}},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
 func Test_3T_3B_3Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
