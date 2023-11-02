@@ -19,7 +19,7 @@ update-dependencies:
 	@go mod tidy -v
 
 test:
-	@go test *.go
+	@go test *.go --test.v
 
 .DEFAULT_GOAL := install
 .PHONY: arch \
