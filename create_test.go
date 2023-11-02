@@ -120,3 +120,17 @@ func Test_3T_2B_1Q_10Q_3W(t *testing.T) {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
 	}
 }
+
+func Test_3T_2B_1Q_10Q_2W(t *testing.T) {
+	testNum := 2
+	test := Data{
+		Tickets: []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "1", Owner: "test"}, {Data: "a", Id: "1", Owner: "test"}},
+		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 10}},
+		Mode:    "lottery",
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
