@@ -22,9 +22,11 @@ type Draw struct {
 type Data struct {
 	Tickets []Ticket `json:"tickets,omitempty"`
 	Bunches []Bunch  `json:"bunches,omitempty"`
+	Mode    string   `json:"mode,omitempty"`
 }
 
 type Ticket struct {
-	Data string `json:"data,omitempty"`
-	Id   string `json:"id,omitempty"`
+	Data  string `json:"data,omitempty"`
+	Id    string `json:"id,omitempty"`
+	Owner string `json:"owner,omitempty"`
 }

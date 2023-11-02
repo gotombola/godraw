@@ -9,6 +9,19 @@ import (
 
 //goland:noinspection GoUnusedExportedFunction
 func CreateDraw(data Data) (Draw, error) {
+	switch data.Mode {
+	case "lottery":
+		return createLotteryDraw(data)
+	case "raffle":
+		return createRaffleDraw(data)
+	case "default":
+		return createRaffleDraw(data)
+	default:
+		return createRaffleDraw(data)
+	}
+}
+
+func createRaffleDraw(data Data) (Draw, error) {
 	if len(data.Tickets) <= 0 {
 		return Draw{}, errors.New("not enough tickets")
 	}
@@ -30,4 +43,11 @@ func CreateDraw(data Data) (Draw, error) {
 	}
 
 	return doc, nil
+}
+
+//goland:noinspection GoUnusedParameter
+func createLotteryDraw(data Data) (Draw, error) {
+	// @todo filter data.Tickets to keep only 1 ticket (the first encountered) for a specific owner
+	// then call createRaffleDraw() with the filtered data
+	return Draw{}, errors.New("not yet implemented")
 }
