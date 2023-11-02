@@ -22,6 +22,7 @@ func CreateDraw(data Data) (Draw, error) {
 }
 
 func createRaffleDraw(data Data) (Draw, error) {
+
 	if len(data.Tickets) <= 0 {
 		return Draw{}, errors.New("not enough tickets")
 	}
@@ -47,7 +48,15 @@ func createRaffleDraw(data Data) (Draw, error) {
 
 //goland:noinspection GoUnusedParameter
 func createLotteryDraw(data Data) (Draw, error) {
-	// @todo filter data.Tickets to keep only 1 ticket (the first encountered) for a specific owner
-	// then call createRaffleDraw() with the filtered data
-	return Draw{}, errors.New("not yet implemented")
+	owners := make(map[string]bool)
+	var filteredTickets []Ticket
+	for _, ticket := range data.Tickets {
+		if (len(ticket.Owner) != 0 && owners[ticket.Owner]) || (len(ticket.Owner) == 0) {
+			continue
+		}
+		filteredTickets = append(filteredTickets, ticket)
+		owners[ticket.Owner] = true
+	}
+	data.Tickets = filteredTickets
+	return createRaffleDraw(data)
 }
