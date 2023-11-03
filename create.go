@@ -21,6 +21,27 @@ func CreateDraw(data Data) (Draw, error) {
 	}
 }
 
+func filteredIgnoreTickets(data Data) ([]Ticket, error) {
+	if len(data.IgnoreTickets) == 0 {
+		return data.Tickets, nil
+	}
+	var filteredTickets []Ticket
+
+	ticketsIgnored := make(map[string]bool)
+
+	for _, ticket := range data.IgnoreTickets {
+		ticketsIgnored[ticket.Id] = true
+	}
+
+	for _, ticket := range data.Tickets {
+		if !ticketsIgnored[ticket.Id] {
+			filteredTickets = append(filteredTickets, ticket)
+		}
+	}
+
+	return filteredTickets, nil
+}
+
 func createRaffleDraw(data Data) (Draw, error) {
 	if len(data.Tickets) <= 0 {
 		return Draw{}, errors.New("not enough tickets")
@@ -28,6 +49,12 @@ func createRaffleDraw(data Data) (Draw, error) {
 
 	if len(data.Bunches) <= 0 {
 		return Draw{}, errors.New("not enough bunches")
+	}
+
+	data.Tickets, _ = filteredIgnoreTickets(data)
+
+	if data.PartialDraw && len(data.Tickets) > data.PartialMaxWinner {
+		data.Tickets = data.Tickets[0:data.PartialMaxWinner]
 	}
 
 	nbShuffles := 5

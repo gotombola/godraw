@@ -20,9 +20,12 @@ type Draw struct {
 }
 
 type Data struct {
-	Tickets []Ticket `json:"tickets,omitempty"`
-	Bunches []Bunch  `json:"bunches,omitempty"`
-	Mode    string   `json:"mode,omitempty"`
+	Tickets          []Ticket `json:"tickets,omitempty"`
+	Bunches          []Bunch  `json:"bunches,omitempty"`
+	Mode             string   `json:"mode,omitempty"`
+	IgnoreTickets    []Ticket
+	PartialDraw      bool
+	PartialMaxWinner int
 }
 
 type Ticket struct {
