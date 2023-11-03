@@ -121,12 +121,61 @@ func Test_3T_2B_1Q_10Q_3W(t *testing.T) {
 	}
 }
 
-func Test_3T_2B_1Q_10Q_2W(t *testing.T) {
+func Test_2T_2B_1Q_10Q_2W(t *testing.T) {
 	testNum := 2
 	test := Data{
 		Tickets: []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "1", Owner: "test"}, {Data: "a", Id: "1", Owner: "test"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 10}},
+		Bunches: []Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}},
 		Mode:    "lottery",
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
+func Test_2T_3B_1Q_1Q_2W_1IT_0PM(t *testing.T) {
+	testNum := 2
+	test := Data{
+		Tickets:          []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:          []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Mode:             "lottery",
+		IgnoredTickets:   []Ticket{{Data: "a", Id: "2", Owner: ""}},
+		PartialDraw:      false,
+		PartialMaxWinner: 0,
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
+func Test_2T_3B_1Q_10Q_2W_0IT_2PM(t *testing.T) {
+	testNum := 2
+	test := Data{
+		Tickets:          []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:          []Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}, {Id: "toy3", Nb: 10}},
+		Mode:             "lottery",
+		IgnoredTickets:   []Ticket{},
+		PartialDraw:      true,
+		PartialMaxWinner: 2,
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
+func Test_3T_3B_1Q_10Q_1IB(t *testing.T) {
+	testNum := 2
+	test := Data{
+		Tickets:        []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:        []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Mode:           "lottery",
+		IgnoredBunches: []Bunch{{Id: "toy1", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
