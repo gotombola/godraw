@@ -48,14 +48,14 @@ func filteredIgnoredBunches(data Data) ([]Bunch, error) {
 	}
 
 	filteredBunchs := make([]Bunch, 0)
-	IgnoredBunches := make(map[string]int)
+	ignoredBunches := make(map[string]int)
 
 	for _, bunch := range data.IgnoredBunches {
-		IgnoredBunches[bunch.Id] = bunch.Nb
+		ignoredBunches[bunch.Id] = bunch.Nb
 	}
 
 	for _, bunch := range data.Bunches {
-		if ignoredNb, exists := IgnoredBunches[bunch.Id]; exists {
+		if ignoredNb, exists := ignoredBunches[bunch.Id]; exists {
 			bunch.Nb -= ignoredNb
 			if bunch.Nb > 0 {
 				filteredBunchs = append(filteredBunchs, bunch)
