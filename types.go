@@ -23,9 +23,10 @@ type Data struct {
 	Tickets          []Ticket `json:"tickets,omitempty"`
 	Bunches          []Bunch  `json:"bunches,omitempty"`
 	Mode             string   `json:"mode,omitempty"`
-	IgnoreTickets    []Ticket
-	PartialDraw      bool
-	PartialMaxWinner int
+	IgnoredTickets   []Ticket `json:"ignored_tickets,omitempty"`
+	PartialDraw      bool     `json:"partial_draw,omitempty"`
+	PartialMaxWinner int      `json:"partial_max_winner,omitempty"`
+	IgnoredBunches   []Bunch  `json:"ignored_bunch,omitempty"`
 }
 
 type Ticket struct {
