@@ -4,6 +4,22 @@ import (
 	"testing"
 )
 
+func Test_0T_1B_1Q_0W(t *testing.T) {
+	testNum := 0
+	test := Data{
+		Tickets: []Ticket{},
+		Bunches: []Bunch{{Data: "toy1", Nb: 1}},
+	}
+	d, err := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	if nil != err {
+		t.Errorf("Expected no errors, go: %s", err.Error())
+	}
+}
+
 func Test_1T_1B_1Q_1W(t *testing.T) {
 	testNum := 1
 	test := Data{
@@ -14,6 +30,22 @@ func Test_1T_1B_1Q_1W(t *testing.T) {
 
 	if len(d.Winners) != testNum {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
+func Test_1T_0B_0Q_0W(t *testing.T) {
+	testNum := 0
+	test := Data{
+		Tickets: []Ticket{{Data: "a", Id: "1"}},
+		Bunches: []Bunch{},
+	}
+	d, err := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	if nil != err {
+		t.Errorf("Expected no errors, go: %s", err.Error())
 	}
 }
 

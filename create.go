@@ -1,7 +1,6 @@
 package godraw
 
 import (
-	"errors"
 	"time"
 
 	"github.com/genstackio/gouuid"
@@ -70,11 +69,17 @@ func filteredIgnoredBunches(data Data) ([]Bunch, error) {
 
 func createRaffleDraw(data Data) (Draw, error) {
 	if len(data.Tickets) <= 0 {
-		return Draw{}, errors.New("not enough tickets")
+		return Draw{
+			Id:        gouuid.V4(),
+			CreatedAt: time.Now().Format(time.RFC3339),
+		}, nil
 	}
 
 	if len(data.Bunches) <= 0 {
-		return Draw{}, errors.New("not enough bunches")
+		return Draw{
+			Id:        gouuid.V4(),
+			CreatedAt: time.Now().Format(time.RFC3339),
+		}, nil
 	}
 
 	data.Bunches, _ = filteredIgnoredBunches(data)
