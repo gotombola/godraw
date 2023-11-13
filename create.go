@@ -72,6 +72,7 @@ func createRaffleDraw(data Data) (Draw, error) {
 		return Draw{
 			Id:        gouuid.V4(),
 			CreatedAt: time.Now().Format(time.RFC3339),
+			Winners:   make([]Winner, 0),
 		}, nil
 	}
 
@@ -79,6 +80,7 @@ func createRaffleDraw(data Data) (Draw, error) {
 		return Draw{
 			Id:        gouuid.V4(),
 			CreatedAt: time.Now().Format(time.RFC3339),
+			Winners:   make([]Winner, 0),
 		}, nil
 	}
 
@@ -95,13 +97,11 @@ func createRaffleDraw(data Data) (Draw, error) {
 		data.Tickets = Shuffle(data.Tickets)
 	}
 
-	doc := Draw{
-		Winners:   computeWinners(data.Tickets, data.Bunches),
+	return Draw{
 		Id:        gouuid.V4(),
 		CreatedAt: time.Now().Format(time.RFC3339),
-	}
-
-	return doc, nil
+		Winners:   computeWinners(data.Tickets, data.Bunches),
+	}, nil
 }
 
 func createLotteryDraw(data Data) (Draw, error) {

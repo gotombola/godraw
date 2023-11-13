@@ -12,6 +12,9 @@ func Test_0T_1B_1Q_0W(t *testing.T) {
 	}
 	d, err := CreateDraw(test)
 
+	if nil == d.Winners {
+		t.Errorf("Expected non-nil winners list")
+	}
 	if len(d.Winners) != testNum {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
 	}
@@ -41,6 +44,9 @@ func Test_1T_0B_0Q_0W(t *testing.T) {
 	}
 	d, err := CreateDraw(test)
 
+	if nil == d.Winners {
+		t.Errorf("Expected non-nil winners list")
+	}
 	if len(d.Winners) != testNum {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
 	}
