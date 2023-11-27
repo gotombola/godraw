@@ -1,9 +1,10 @@
 package godraw
 
 type Bunch struct {
-	Id   string
-	Data string
-	Nb   int
+	Id   string `json:"id,omitempty"`
+	Data string `json:"data,omitempty"`
+	Nb   int    `json:"nb,omitempty"`
+	Ro   int    `json:"ro,omitempty"`
 }
 
 type Winner struct {
@@ -11,6 +12,7 @@ type Winner struct {
 	B  string `json:"b"`
 	Td string `json:"td,omitempty"`
 	Bd string `json:"bd,omitempty"`
+	Ro int    `json:"ro,omitempty"`
 }
 
 type Draw struct {

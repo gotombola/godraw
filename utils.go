@@ -42,6 +42,9 @@ func assignOneOccurenceOfTheBunchToTheTicket(bunch Bunch, ticket Ticket,
 	var winner Winner
 	if 0 < quantity {
 		winner = Winner{T: ticket.Id, B: bunch.Id, Td: ticket.Data, Bd: bunch.Data}
+		if bunch.Ro > 0 {
+			winner.Ro = bunch.Ro
+		}
 		if 1 < quantity {
 			giftCounter, quantity = giftCounter+1, quantity-1
 		} else {
