@@ -221,3 +221,135 @@ func Test_3T_3B_1Q_10Q_1IB(t *testing.T) {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
 	}
 }
+
+func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
+	testNum := 2
+	multipleOwnerId := "o1"
+	test := Data{
+		Tickets: []Ticket{
+			{Data: "a", Id: "1", Owner: multipleOwnerId},
+			{Data: "a", Id: "2", Owner: "o2"},
+			{Data: "a", Id: "3", Owner: multipleOwnerId},
+			{Data: "a", Id: "4", Owner: multipleOwnerId},
+			{Data: "a", Id: "5", Owner: multipleOwnerId},
+			{Data: "a", Id: "6", Owner: multipleOwnerId},
+			{Data: "a", Id: "7", Owner: multipleOwnerId},
+			{Data: "a", Id: "8", Owner: multipleOwnerId},
+			{Data: "a", Id: "9", Owner: multipleOwnerId},
+			{Data: "a", Id: "10", Owner: multipleOwnerId},
+		},
+		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Mode:    "raffle",
+		Features: []string{
+			"max_1_per_owner",
+		},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	m := map[string]int{
+		"o1": 0,
+		"o2": 0,
+	}
+	mT := map[string]string{}
+
+	for _, t := range test.Tickets {
+		mT[t.Id] = t.Owner
+	}
+	for _, w := range d.Winners {
+		m[mT[w.T]]++
+	}
+	for k, v := range m {
+		if v > 1 {
+			t.Errorf("Owner [%s] has [%d] winning tickets, not allowed", k, v)
+		}
+	}
+}
+func Test_9T_2B_9T_SAME_OWNER_NO_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
+	testNum := 2
+	multipleOwnerId := "o1"
+	test := Data{
+		Tickets: []Ticket{
+			{Data: "a", Id: "1", Owner: multipleOwnerId},
+			{Data: "a", Id: "3", Owner: multipleOwnerId},
+			{Data: "a", Id: "4", Owner: multipleOwnerId},
+			{Data: "a", Id: "5", Owner: multipleOwnerId},
+			{Data: "a", Id: "6", Owner: multipleOwnerId},
+			{Data: "a", Id: "7", Owner: multipleOwnerId},
+			{Data: "a", Id: "8", Owner: multipleOwnerId},
+			{Data: "a", Id: "9", Owner: multipleOwnerId},
+			{Data: "a", Id: "10", Owner: multipleOwnerId},
+		},
+		Bunches:  []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Mode:     "raffle",
+		Features: []string{},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	m := map[string]int{
+		"o1": 0,
+	}
+	mT := map[string]string{}
+
+	for _, t := range test.Tickets {
+		mT[t.Id] = t.Owner
+	}
+	for _, w := range d.Winners {
+		m[mT[w.T]]++
+	}
+	for k, v := range m {
+		if v <= 1 {
+			t.Errorf("Owner [%s] has only [%d] winning tickets", k, v)
+		}
+	}
+}
+func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
+	testNum := 2
+	multipleOwnerId := "o1"
+	test := Data{
+		Tickets: []Ticket{
+			{Data: "a", Id: "1", Owner: multipleOwnerId},
+			{Data: "a", Id: "2", Owner: "o2"},
+			{Data: "a", Id: "3", Owner: multipleOwnerId},
+			{Data: "a", Id: "4", Owner: multipleOwnerId},
+			{Data: "a", Id: "5", Owner: multipleOwnerId},
+			{Data: "a", Id: "6", Owner: multipleOwnerId},
+			{Data: "a", Id: "7", Owner: multipleOwnerId},
+			{Data: "a", Id: "8", Owner: multipleOwnerId},
+			{Data: "a", Id: "9", Owner: multipleOwnerId},
+			{Data: "a", Id: "10", Owner: multipleOwnerId},
+		},
+		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Mode:    "raffle",
+		Features: []string{
+			"max_2_per_owner",
+		},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	m := map[string]int{
+		"o1": 0,
+		"o2": 0,
+	}
+	mT := map[string]string{}
+
+	for _, t := range test.Tickets {
+		mT[t.Id] = t.Owner
+	}
+	for _, w := range d.Winners {
+		m[mT[w.T]]++
+	}
+	for k, v := range m {
+		if v > 2 {
+			t.Errorf("Owner [%s] has [%d] winning tickets, not allowed", k, v)
+		}
+	}
+}
