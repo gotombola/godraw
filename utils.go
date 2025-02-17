@@ -41,7 +41,7 @@ func assignOneOccurenceOfTheBunchToTheTicket(bunch Bunch, ticket Ticket,
 	}
 	var winner Winner
 	if 0 < quantity {
-		winner = Winner{T: ticket.Id, B: bunch.Id, Td: ticket.Data, Bd: bunch.Data}
+		winner = Winner{T: ticket.Id, To: ticket.Owner, B: bunch.Id, Td: ticket.Data, Bd: bunch.Data}
 		if bunch.Ro > 0 {
 			winner.Ro = bunch.Ro
 		}
@@ -58,9 +58,21 @@ func assignOneOccurenceOfTheBunchToTheTicket(bunch Bunch, ticket Ticket,
 	return counter, bunchNumber, giftCounter, quantity, ticketNumber, winner
 }
 
+func hasOwnerAlreadyWonMaxAmount(ticket Ticket, ownersWins map[string][]Winner, max int) bool {
+	wins, found := ownersWins[ticket.Owner]
+	if !found {
+		return false
+	}
+	if len(wins) >= max {
+		return true
+	}
+	return false
+}
+
 // ComputeWinners creates a new list of 'giftCounter' from random numbers from the dataset
-func computeWinners(tickets []Ticket, bunches []Bunch) []Winner {
+func computeWinners(tickets []Ticket, bunches []Bunch, options ComputeOptions) []Winner {
 	var winners []Winner
+	ownersWins := map[string][]Winner{}
 	giftCounter := len(bunches)
 	n := len(tickets)
 	ticketNumber := 0
@@ -70,12 +82,20 @@ func computeWinners(tickets []Ticket, bunches []Bunch) []Winner {
 	var bunchNumber, counter = 0, 0
 	quantity := -1
 	var winner Winner
+	maxAmount := options.getMaxWinAmountPerOwnerFeature()
 	for ; counter < giftCounter && counter < n; ticketNumber++ {
+		if maxAmount > 0 && hasOwnerAlreadyWonMaxAmount(tickets[ticketNumber], ownersWins, maxAmount) {
+			if ticketNumber+1 == n {
+				ticketNumber = -1
+			}
+			continue
+		}
 		counter, bunchNumber, giftCounter, quantity, ticketNumber, winner =
 			assignOneOccurenceOfTheBunchToTheTicket(bunches[bunchNumber],
 				tickets[ticketNumber], counter, giftCounter, bunchNumber, ticketNumber, quantity)
 		if winner.T != "" {
 			winners = append(winners, winner)
+			ownersWins[winner.To] = append(ownersWins[winner.To], winner)
 		}
 		if ticketNumber+1 == n {
 			ticketNumber = -1

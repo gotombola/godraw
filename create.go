@@ -20,6 +20,25 @@ func CreateDraw(data Data) (Draw, error) {
 	}
 }
 
+func filteredIgnoredTicketsBasedOnSameOwner(data Data) ([]Ticket, error) {
+	owners := make(map[string]bool)
+	var filteredTickets []Ticket
+
+	for _, ticket := range data.Tickets {
+		if len(ticket.Owner) != 0 && owners[ticket.Owner] {
+			continue
+		}
+
+		filteredTickets = append(filteredTickets, ticket)
+
+		if len(ticket.Owner) != 0 {
+			owners[ticket.Owner] = true
+		}
+	}
+
+	return filteredTickets, nil
+}
+
 func filteredIgnoredTickets(data Data) ([]Ticket, error) {
 	if len(data.IgnoredTickets) == 0 {
 		return data.Tickets, nil
@@ -68,60 +87,50 @@ func filteredIgnoredBunches(data Data) ([]Bunch, error) {
 }
 
 func createRaffleDraw(data Data) (Draw, error) {
-	if len(data.Tickets) <= 0 {
-		return Draw{
-			Id:        gouuid.V4(),
-			CreatedAt: time.Now().Format(time.RFC3339),
-			Winners:   make([]Winner, 0),
-		}, nil
-	}
-
-	if len(data.Bunches) <= 0 {
-		return Draw{
-			Id:        gouuid.V4(),
-			CreatedAt: time.Now().Format(time.RFC3339),
-			Winners:   make([]Winner, 0),
-		}, nil
+	draw := Draw{
+		Id:        gouuid.V4(),
+		CreatedAt: time.Now().Format(time.RFC3339),
+		Winners:   make([]Winner, 0),
 	}
 
 	data.Bunches, _ = filteredIgnoredBunches(data)
 	data.Tickets, _ = filteredIgnoredTickets(data)
 
+	if len(data.Tickets) <= 0 {
+		return draw, nil
+	}
+
+	if len(data.Bunches) <= 0 {
+		return draw, nil
+	}
+
 	if data.PartialDraw && len(data.Tickets) > data.PartialMaxWinners {
 		data.Tickets = data.Tickets[0:data.PartialMaxWinners]
 	}
 
+	data.Tickets = shuffleTickets(data.Tickets)
+	draw.Winners = computeWinners(
+		data.Tickets,
+		data.Bunches,
+		ComputeOptions{
+			Features: data.Features,
+		},
+	)
+
+	return draw, nil
+}
+
+func shuffleTickets(tickets []Ticket) []Ticket {
 	nbShuffles := 5
 
 	for i := 0; i < nbShuffles; i++ {
-		data.Tickets = Shuffle(data.Tickets)
+		tickets = Shuffle(tickets)
 	}
 
-	return Draw{
-		Id:        gouuid.V4(),
-		CreatedAt: time.Now().Format(time.RFC3339),
-		Winners:   computeWinners(data.Tickets, data.Bunches),
-	}, nil
+	return tickets
 }
-
 func createLotteryDraw(data Data) (Draw, error) {
-	owners := make(map[string]bool)
-
-	var filteredTickets []Ticket
-
-	for _, ticket := range data.Tickets {
-		if len(ticket.Owner) != 0 && owners[ticket.Owner] {
-			continue
-		}
-
-		filteredTickets = append(filteredTickets, ticket)
-
-		if len(ticket.Owner) != 0 {
-			owners[ticket.Owner] = true
-		}
-	}
-
-	data.Tickets = filteredTickets
+	data.Tickets, _ = filteredIgnoredTicketsBasedOnSameOwner(data)
 
 	return createRaffleDraw(data)
 }
