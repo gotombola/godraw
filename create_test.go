@@ -353,15 +353,15 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
 		}
 	}
 }
-func Test_2T_2B_CHOSEN_BUNCHES(t *testing.T) {
+func Test_6T_2B_CHOSEN_BUNCHES(t *testing.T) {
 	test := Data{
 		Tickets: []Ticket{
 			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
-			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
-			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
-			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
-			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
-			{Data: "a", Id: "2", Owner: "o2", ChosenBunches: []string{"toy1"}},
+			{Data: "a", Id: "2", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "3", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "4", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "5", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "6", Owner: "o2", ChosenBunches: []string{"toy1"}},
 		},
 		Bunches:  []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 		Mode:     "raffle",
@@ -375,6 +375,44 @@ func Test_2T_2B_CHOSEN_BUNCHES(t *testing.T) {
 		}
 		if w.To == "o2" && w.B != "toy1" {
 			t.Errorf("Owner [%s] won a bunch it didn't choose [%s]", w.To, w.B)
+		}
+	}
+}
+func Test_9T_3B_MAX_1_TAG(t *testing.T) {
+	test := Data{
+		Tickets: []Ticket{
+			{Data: "a", Id: "1", Owner: "o1"},
+			{Data: "a", Id: "2", Owner: "o1"},
+			{Data: "a", Id: "3", Owner: "o1"},
+			{Data: "a", Id: "4", Owner: "o1"},
+			{Data: "a", Id: "5", Owner: "o1"},
+			{Data: "a", Id: "6", Owner: "o1"},
+			{Data: "a", Id: "7", Owner: "o1"},
+			{Data: "a", Id: "8", Owner: "o1"},
+			{Data: "a", Id: "9", Owner: "o2"},
+		},
+		Bunches: []Bunch{{Id: "toy1", Nb: 1, Tags: []string{"toy"}}, {Id: "toy2", Nb: 1, Tags: []string{"toy"}}, {Id: "travel1", Nb: 1, Tags: []string{"travel"}}},
+		Mode:    "raffle",
+		Features: []string{
+			"max_1_per_tag_per_owner",
+		},
+	}
+	d, _ := CreateDraw(test)
+
+	m := map[string]map[string]int{
+		"o1": {"toy": 0, "travel": 0},
+		"o2": {"toy": 0, "travel": 0},
+	}
+	for _, w := range d.Winners {
+		for _, tag := range w.Bt {
+			m[w.To][tag]++
+		}
+	}
+	for k, v := range m {
+		for k2, v2 := range v {
+			if v2 > 2 {
+				t.Errorf("Owner [%s] has [%d] winning tickets with tag [%s], not allowed", k, v2, k2)
+			}
 		}
 	}
 }
