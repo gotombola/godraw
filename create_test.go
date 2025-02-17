@@ -353,3 +353,28 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
 		}
 	}
 }
+func Test_2T_2B_CHOSEN_BUNCHES(t *testing.T) {
+	test := Data{
+		Tickets: []Ticket{
+			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
+			{Data: "a", Id: "2", Owner: "o2", ChosenBunches: []string{"toy1"}},
+		},
+		Bunches:  []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Mode:     "raffle",
+		Features: []string{},
+	}
+	d, _ := CreateDraw(test)
+
+	for _, w := range d.Winners {
+		if w.To == "o1" && w.B != "toy2" {
+			t.Errorf("Owner [%s] won a bunch it didn't choose [%s]", w.To, w.B)
+		}
+		if w.To == "o2" && w.B != "toy1" {
+			t.Errorf("Owner [%s] won a bunch it didn't choose [%s]", w.To, w.B)
+		}
+	}
+}

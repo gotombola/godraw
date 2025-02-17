@@ -36,9 +36,25 @@ type Data struct {
 }
 
 type Ticket struct {
-	Data  string `json:"data,omitempty"`
-	Id    string `json:"id,omitempty"`
-	Owner string `json:"owner,omitempty"`
+	Data          string   `json:"data,omitempty"`
+	Id            string   `json:"id,omitempty"`
+	Owner         string   `json:"owner,omitempty"`
+	ChosenBunches []string `json:"chosenBunches,omitempty"`
+}
+
+func (ticket Ticket) hasChosenBunch(bunch string) bool {
+	if ticket.ChosenBunches == nil || len(ticket.ChosenBunches) == 0 {
+		return true
+	}
+	for _, cb := range ticket.ChosenBunches {
+		if cb == "*" {
+			return true
+		}
+		if cb == bunch {
+			return true
+		}
+	}
+	return false
 }
 
 type ComputeOptions struct {

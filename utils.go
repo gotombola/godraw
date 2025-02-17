@@ -90,6 +90,12 @@ func computeWinners(tickets []Ticket, bunches []Bunch, options ComputeOptions) [
 			}
 			continue
 		}
+		if !tickets[ticketNumber].hasChosenBunch(bunches[bunchNumber].Id) {
+			if ticketNumber+1 == n {
+				ticketNumber = -1
+			}
+			continue
+		}
 		counter, bunchNumber, giftCounter, quantity, ticketNumber, winner =
 			assignOneOccurenceOfTheBunchToTheTicket(bunches[bunchNumber],
 				tickets[ticketNumber], counter, giftCounter, bunchNumber, ticketNumber, quantity)
