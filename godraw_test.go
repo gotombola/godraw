@@ -1,14 +1,15 @@
 package godraw
 
 import (
+	"github.com/gotombola/godraw/types"
 	"testing"
 )
 
 func Test_0T_1B_1Q_0W(t *testing.T) {
 	testNum := 0
 	test := Data{
-		Tickets: []Ticket{},
-		Bunches: []Bunch{{Data: "toy1", Nb: 1}},
+		Tickets: []types.Ticket{},
+		Bunches: []types.Bunch{{Data: "toy1", Nb: 1}},
 	}
 	d, err := CreateDraw(test)
 
@@ -26,8 +27,8 @@ func Test_0T_1B_1Q_0W(t *testing.T) {
 func Test_1T_1B_1Q_1W(t *testing.T) {
 	testNum := 1
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Data: "toy1", Nb: 1}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Data: "toy1", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -39,8 +40,8 @@ func Test_1T_1B_1Q_1W(t *testing.T) {
 func Test_1T_0B_0Q_0W(t *testing.T) {
 	testNum := 0
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}},
-		Bunches: []Bunch{},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{},
 	}
 	d, err := CreateDraw(test)
 
@@ -58,8 +59,8 @@ func Test_1T_0B_0Q_0W(t *testing.T) {
 func Test_3T_3B_3Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Data: "toy1", Nb: 1}, {Data: "toy2", Nb: 1}, {Data: "toy3", Nb: 1}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Data: "toy1", Nb: 1}, {Data: "toy2", Nb: 1}, {Data: "toy3", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -71,8 +72,8 @@ func Test_3T_3B_3Q_3W(t *testing.T) {
 func Test_3T_2B_2Q_2W(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -84,8 +85,8 @@ func Test_3T_2B_2Q_2W(t *testing.T) {
 func Test_2T_3B_3Q_2W(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -97,8 +98,8 @@ func Test_2T_3B_3Q_2W(t *testing.T) {
 func Test_0T_3B_3Q_0W(t *testing.T) {
 	testNum := 0
 	test := Data{
-		Tickets: []Ticket{},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Tickets: []types.Ticket{},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -110,8 +111,8 @@ func Test_0T_3B_3Q_0W(t *testing.T) {
 func Test_3T_0B_0Q_0W(t *testing.T) {
 	testNum := 0
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{},
 	}
 	d, _ := CreateDraw(test)
 
@@ -123,8 +124,8 @@ func Test_3T_0B_0Q_0W(t *testing.T) {
 func Test_3T_1B_4Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 4}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 4}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -136,8 +137,8 @@ func Test_3T_1B_4Q_3W(t *testing.T) {
 func Test_3T_2B_1Q_2Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 2}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 2}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -149,8 +150,8 @@ func Test_3T_2B_1Q_2Q_3W(t *testing.T) {
 func Test_3T_2B_1Q_10Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 10}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}, {Data: "a", Id: "1"}, {Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 10}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -162,8 +163,8 @@ func Test_3T_2B_1Q_10Q_3W(t *testing.T) {
 func Test_3T_2B_1Q_10Q_2W(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets: []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "1", Owner: "test"}, {Data: "a", Id: "1", Owner: "test"}},
-		Bunches: []Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}},
+		Tickets: []types.Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "1", Owner: "test"}, {Data: "a", Id: "1", Owner: "test"}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}},
 		Mode:    "lottery",
 	}
 	d, _ := CreateDraw(test)
@@ -176,10 +177,10 @@ func Test_3T_2B_1Q_10Q_2W(t *testing.T) {
 func Test_3T_3B_1Q_1Q_2W_1IT_0PM(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets:           []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
-		Bunches:           []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Tickets:           []types.Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:           []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
 		Mode:              "lottery",
-		IgnoredTickets:    []Ticket{{Data: "a", Id: "2", Owner: ""}},
+		IgnoredTickets:    []types.Ticket{{Data: "a", Id: "2", Owner: ""}},
 		PartialDraw:       false,
 		PartialMaxWinners: 0,
 	}
@@ -193,10 +194,10 @@ func Test_3T_3B_1Q_1Q_2W_1IT_0PM(t *testing.T) {
 func Test_3T_3B_1Q_10Q_2W_0IT_2PM(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets:           []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
-		Bunches:           []Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}, {Id: "toy3", Nb: 10}},
+		Tickets:           []types.Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "a", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:           []types.Bunch{{Id: "toy1", Nb: 10}, {Id: "toy2", Nb: 10}, {Id: "toy3", Nb: 10}},
 		Mode:              "lottery",
-		IgnoredTickets:    []Ticket{},
+		IgnoredTickets:    []types.Ticket{},
 		PartialDraw:       true,
 		PartialMaxWinners: 2,
 	}
@@ -210,10 +211,10 @@ func Test_3T_3B_1Q_10Q_2W_0IT_2PM(t *testing.T) {
 func Test_3T_3B_1Q_10Q_1IB(t *testing.T) {
 	testNum := 2
 	test := Data{
-		Tickets:        []Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
-		Bunches:        []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
+		Tickets:        []types.Ticket{{Data: "a", Id: "1", Owner: ""}, {Data: "", Id: "2", Owner: ""}, {Data: "a", Id: "3", Owner: ""}},
+		Bunches:        []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}, {Id: "toy3", Nb: 1}},
 		Mode:           "lottery",
-		IgnoredBunches: []Bunch{{Id: "toy1", Nb: 1}},
+		IgnoredBunches: []types.Bunch{{Id: "toy1", Nb: 1}},
 	}
 	d, _ := CreateDraw(test)
 
@@ -226,7 +227,7 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 	testNum := 2
 	multipleOwnerId := "o1"
 	test := Data{
-		Tickets: []Ticket{
+		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: multipleOwnerId},
 			{Data: "a", Id: "2", Owner: "o2"},
 			{Data: "a", Id: "3", Owner: multipleOwnerId},
@@ -238,7 +239,7 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 			{Data: "a", Id: "9", Owner: multipleOwnerId},
 			{Data: "a", Id: "10", Owner: multipleOwnerId},
 		},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 		Mode:    "raffle",
 		Features: []string{
 			"max_1_per_owner",
@@ -271,7 +272,7 @@ func Test_9T_2B_9T_SAME_OWNER_NO_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 	testNum := 2
 	multipleOwnerId := "o1"
 	test := Data{
-		Tickets: []Ticket{
+		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: multipleOwnerId},
 			{Data: "a", Id: "3", Owner: multipleOwnerId},
 			{Data: "a", Id: "4", Owner: multipleOwnerId},
@@ -282,7 +283,7 @@ func Test_9T_2B_9T_SAME_OWNER_NO_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 			{Data: "a", Id: "9", Owner: multipleOwnerId},
 			{Data: "a", Id: "10", Owner: multipleOwnerId},
 		},
-		Bunches:  []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Bunches:  []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 		Mode:     "raffle",
 		Features: []string{},
 	}
@@ -312,7 +313,7 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
 	testNum := 2
 	multipleOwnerId := "o1"
 	test := Data{
-		Tickets: []Ticket{
+		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: multipleOwnerId},
 			{Data: "a", Id: "2", Owner: "o2"},
 			{Data: "a", Id: "3", Owner: multipleOwnerId},
@@ -324,7 +325,7 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
 			{Data: "a", Id: "9", Owner: multipleOwnerId},
 			{Data: "a", Id: "10", Owner: multipleOwnerId},
 		},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 		Mode:    "raffle",
 		Features: []string{
 			"max_2_per_owner",
@@ -355,7 +356,7 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_2_PER_OWNER(t *testing.T) {
 }
 func Test_6T_2B_CHOSEN_BUNCHES(t *testing.T) {
 	test := Data{
-		Tickets: []Ticket{
+		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: "o1", ChosenBunches: []string{"toy2"}},
 			{Data: "a", Id: "2", Owner: "o1", ChosenBunches: []string{"toy2"}},
 			{Data: "a", Id: "3", Owner: "o1", ChosenBunches: []string{"toy2"}},
@@ -363,7 +364,7 @@ func Test_6T_2B_CHOSEN_BUNCHES(t *testing.T) {
 			{Data: "a", Id: "5", Owner: "o1", ChosenBunches: []string{"toy2"}},
 			{Data: "a", Id: "6", Owner: "o2", ChosenBunches: []string{"toy1"}},
 		},
-		Bunches:  []Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
+		Bunches:  []types.Bunch{{Id: "toy1", Nb: 1}, {Id: "toy2", Nb: 1}},
 		Mode:     "raffle",
 		Features: []string{},
 	}
@@ -380,7 +381,7 @@ func Test_6T_2B_CHOSEN_BUNCHES(t *testing.T) {
 }
 func Test_9T_3B_MAX_1_TAG(t *testing.T) {
 	test := Data{
-		Tickets: []Ticket{
+		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: "o1"},
 			{Data: "a", Id: "2", Owner: "o1"},
 			{Data: "a", Id: "3", Owner: "o1"},
@@ -391,7 +392,7 @@ func Test_9T_3B_MAX_1_TAG(t *testing.T) {
 			{Data: "a", Id: "8", Owner: "o1"},
 			{Data: "a", Id: "9", Owner: "o2"},
 		},
-		Bunches: []Bunch{{Id: "toy1", Nb: 1, Tags: []string{"toy"}}, {Id: "toy2", Nb: 1, Tags: []string{"toy"}}, {Id: "travel1", Nb: 1, Tags: []string{"travel"}}},
+		Bunches: []types.Bunch{{Id: "toy1", Nb: 1, Tags: []string{"toy"}}, {Id: "toy2", Nb: 1, Tags: []string{"toy"}}, {Id: "travel1", Nb: 1, Tags: []string{"travel"}}},
 		Mode:    "raffle",
 		Features: []string{
 			"max_1_per_tag_per_owner",
