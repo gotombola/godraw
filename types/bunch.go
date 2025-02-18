@@ -3,18 +3,18 @@ package types
 import "encoding/json"
 
 type Bunch struct {
-	Id   string   `json:"id,omitempty"`
-	Data string   `json:"data,omitempty"`
-	Nb   int      `json:"nb,omitempty"`
-	Ro   int      `json:"ro,omitempty"`
-	Tags []string `json:"tags,omitempty"`
+	Id         string   `json:"id,omitempty"`
+	Data       string   `json:"d,omitempty"`
+	Quantity   int      `json:"n,omitempty"`
+	RankOffset int      `json:"ro,omitempty"`
+	Tags       []string `json:"t,omitempty"`
 }
 
 func (b *Bunch) UnmarshalJSON(text []byte) error {
 	type bunches Bunch
 
 	bunch := bunches{
-		Nb: 1,
+		Quantity: 1,
 	}
 
 	if err := json.Unmarshal(text, &bunch); err != nil {

@@ -39,17 +39,23 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 			}
 			continue
 		}
+		if !tickets[ticketNumber].HasValidTimestamp(options.StartTimestamp, options.EndTimestamp) {
+			if ticketNumber+1 == n {
+				ticketNumber = -1
+			}
+			continue
+		}
 		counter, bunchNumber, giftCounter, quantity, ticketNumber, winner =
 			AssignOne(bunches[bunchNumber],
 				tickets[ticketNumber], counter, giftCounter, bunchNumber, ticketNumber, quantity)
-		if winner.T != "" {
+		if winner.Ticket != "" {
 			winners = append(winners, winner)
-			ownersWins[winner.To] = append(ownersWins[winner.To], winner)
-			if ownersWinsTags[winner.To] == nil {
-				ownersWinsTags[winner.To] = map[string]int{}
+			ownersWins[winner.TicketOwner] = append(ownersWins[winner.TicketOwner], winner)
+			if ownersWinsTags[winner.TicketOwner] == nil {
+				ownersWinsTags[winner.TicketOwner] = map[string]int{}
 			}
-			for _, tag := range winner.Bt {
-				ownersWinsTags[winner.To][tag]++
+			for _, tag := range winner.BunchTags {
+				ownersWinsTags[winner.TicketOwner][tag]++
 			}
 		}
 		if ticketNumber+1 == n {

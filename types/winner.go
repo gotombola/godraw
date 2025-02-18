@@ -1,11 +1,11 @@
 package types
 
 type Winner struct {
-	T  string   `json:"t"`
-	To string   `json:"to"`
-	B  string   `json:"b"`
-	Td string   `json:"td,omitempty"`
-	Bd string   `json:"bd,omitempty"`
-	Bt []string `json:"bt,omitempty"`
-	Ro int      `json:"ro,omitempty"`
+	Ticket      string   `json:"t"`
+	TicketOwner string   `json:"to"`
+	Bunch       string   `json:"b"`
+	TicketData  string   `json:"td,omitempty"`
+	BunchData   string   `json:"bd,omitempty"`
+	BunchTags   []string `json:"bt,omitempty"`
+	RankOffset  int      `json:"ro,omitempty"`
 }

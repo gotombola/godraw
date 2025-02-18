@@ -34,7 +34,9 @@ func Raffle(data types.Data) (types.Draw, error) {
 		data.Tickets,
 		data.Bunches,
 		types.Options{
-			Features: data.Features,
+			Features:       data.Features,
+			StartTimestamp: data.StartTimestamp,
+			EndTimestamp:   data.EndTimestamp,
 		},
 	)
 
