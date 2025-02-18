@@ -4,8 +4,8 @@ import "encoding/json"
 
 type Bunch struct {
 	Id         string   `json:"id,omitempty"`
-	Data       string   `json:"d,omitempty"`
-	Quantity   int      `json:"n,omitempty"`
+	Data       string   `json:"data,omitempty"`
+	Quantity   int      `json:"nb,omitempty"`
 	RankOffset int      `json:"ro,omitempty"`
 	Tags       []string `json:"t,omitempty"`
 }

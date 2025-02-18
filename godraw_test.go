@@ -423,7 +423,7 @@ func Test_9T_3B_MAX_1_TAG(t *testing.T) {
 	}
 }
 func Test_Bunch_JSON_Marshalling(t *testing.T) {
-	originalJSON := `{"id":"1","d":"data","n":5,"ro":2,"t":["tag1","tag2"]}`
+	originalJSON := `{"id":"1","data":"data","nb":5,"ro":2,"t":["tag1","tag2"]}`
 	var bunch types.Bunch
 	err := json.Unmarshal([]byte(originalJSON), &bunch)
 	if err != nil {
@@ -455,7 +455,7 @@ func Test_Bunch_JSON_Marshalling(t *testing.T) {
 	}
 }
 func Test_Ticket_JSON_Marshalling(t *testing.T) {
-	originalJSON := `{"d":"data","id":"1","o":"o1","b":["bunch1","bunch2","bunch3"]}`
+	originalJSON := `{"data":"data","id":"1","owner":"o1","b":["bunch1","bunch2","bunch3"]}`
 
 	var ticket types.Ticket
 	err := json.Unmarshal([]byte(originalJSON), &ticket)

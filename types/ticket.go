@@ -1,9 +1,9 @@
 package types
 
 type Ticket struct {
-	Data          string   `json:"d,omitempty"`
+	Data          string   `json:"data,omitempty"`
 	Id            string   `json:"id,omitempty"`
-	Owner         string   `json:"o,omitempty"`
+	Owner         string   `json:"owner,omitempty"`
 	ChosenBunches []string `json:"b,omitempty"`
 	Timestamp     int      `json:"ts,omitempty"`
 }
