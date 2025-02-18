@@ -3,7 +3,9 @@ package types
 import "strconv"
 
 type Options struct {
-	Features []string `json:"features,omitempty"`
+	Features       []string `json:"features,omitempty"`
+	StartTimestamp int      `json:"sts,omitempty"`
+	EndTimestamp   int      `json:"ets,omitempty"`
 }
 
 func (options Options) HasFeature(feature string) bool {

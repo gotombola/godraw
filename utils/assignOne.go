@@ -6,13 +6,13 @@ func AssignOne(bunch types.Bunch, ticket types.Ticket,
 	counter int, giftCounter int, bunchNumber int, ticketNumber int,
 	quantity int) (int, int, int, int, int, types.Winner) {
 	if -1 == quantity {
-		quantity = bunch.Nb
+		quantity = bunch.Quantity
 	}
 	var winner types.Winner
 	if 0 < quantity {
-		winner = types.Winner{T: ticket.Id, To: ticket.Owner, B: bunch.Id, Bt: bunch.Tags, Td: ticket.Data, Bd: bunch.Data}
-		if bunch.Ro > 0 {
-			winner.Ro = bunch.Ro
+		winner = types.Winner{Ticket: ticket.Id, TicketOwner: ticket.Owner, Bunch: bunch.Id, BunchTags: bunch.Tags, TicketData: ticket.Data, BunchData: bunch.Data}
+		if bunch.RankOffset > 0 {
+			winner.RankOffset = bunch.RankOffset
 		}
 		if 1 < quantity {
 			giftCounter, quantity = giftCounter+1, quantity-1

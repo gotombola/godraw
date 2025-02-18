@@ -1,6 +1,8 @@
 package utils
 
-import "github.com/gotombola/godraw/types"
+import (
+	"github.com/gotombola/godraw/types"
+)
 
 func FilterIgnoredTickets(data types.Data) ([]types.Ticket, error) {
 	if len(data.IgnoredTickets) == 0 {

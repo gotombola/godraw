@@ -1,10 +1,11 @@
 package types
 
 type Ticket struct {
-	Data          string   `json:"data,omitempty"`
+	Data          string   `json:"d,omitempty"`
 	Id            string   `json:"id,omitempty"`
-	Owner         string   `json:"owner,omitempty"`
-	ChosenBunches []string `json:"chosenBunches,omitempty"`
+	Owner         string   `json:"o,omitempty"`
+	ChosenBunches []string `json:"b,omitempty"`
+	Timestamp     int      `json:"ts,omitempty"`
 }
 
 func (ticket Ticket) HasOwnerAlreadyWonMaxAmount(ownersWins map[string][]Winner, max int) bool {
@@ -44,4 +45,14 @@ func (ticket Ticket) HasChosenBunch(bunch string) bool {
 		}
 	}
 	return false
+}
+
+func (ticket Ticket) HasValidTimestamp(start int, end int) bool {
+	if start == 0 && end == 0 {
+		return true
+	}
+	if ticket.Timestamp < start || (end != 0 && ticket.Timestamp > end) {
+		return false
+	}
+	return true
 }
