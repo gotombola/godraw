@@ -496,11 +496,11 @@ func Test_9T_2B_7T_WITH_INVALID_TIMESTAMP(t *testing.T) {
 			{Data: "a", Id: "8", Owner: "o2", Timestamp: 15},
 			{Data: "a", Id: "9", Owner: "o2", Timestamp: 15},
 		},
-		Bunches:        []types.Bunch{{Id: "toy1", Quantity: 1}, {Id: "toy2", Quantity: 1}},
-		Mode:           "raffle",
-		StartTimestamp: 10,
-		EndTimestamp:   20,
-		Features:       []string{},
+		Bunches:              []types.Bunch{{Id: "toy1", Quantity: 1}, {Id: "toy2", Quantity: 1}},
+		Mode:                 "raffle",
+		TicketStartTimestamp: 10,
+		TicketEndTimestamp:   20,
+		Features:             []string{},
 	}
 	d, _ := CreateDraw(test)
 	for _, win := range d.Winners {
@@ -534,12 +534,12 @@ func Test_1MILLION_TICKETS_WITH_TIMESTAMPS(t *testing.T) {
 	}
 
 	test := Data{
-		Tickets:        tickets,
-		Bunches:        bunches,
-		Mode:           "raffle",
-		StartTimestamp: 500,
-		EndTimestamp:   900,
-		Features:       []string{},
+		Tickets:              tickets,
+		Bunches:              bunches,
+		Mode:                 "raffle",
+		TicketStartTimestamp: 500,
+		TicketEndTimestamp:   900,
+		Features:             []string{},
 	}
 	_, _ = CreateDraw(test)
 	duration := time.Since(start)
@@ -570,5 +570,65 @@ func Test_9T_3B_DATA_TAGS(t *testing.T) {
 	if len(d.Winners) != 2 {
 		t.Errorf("Only two bunches should have been won")
 	}
+}
+func Test_9T_2B_1B_WITH_INVALID_TIMESTAMP(t *testing.T) {
+	test := Data{
+		Tickets: []types.Ticket{
+			{Data: "a", Id: "1", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "3", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "4", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "5", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "6", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "7", Owner: "o1", Timestamp: 5},
+			{Data: "a", Id: "8", Owner: "o2", Timestamp: 15},
+			{Data: "a", Id: "9", Owner: "o2", Timestamp: 15},
+		},
+		Bunches:             []types.Bunch{{Id: "toy1", Quantity: 1, Timestamp: 5}, {Id: "toy2", Quantity: 1, Timestamp: 15}},
+		Mode:                "raffle",
+		BunchStartTimestamp: 10,
+		BunchEndTimestamp:   20,
+		Features:            []string{},
+	}
+	d, _ := CreateDraw(test)
 
+	if len(d.Winners) != 1 {
+		t.Errorf("Only one bunches should have been won, not %d", len(d.Winners))
+	}
+	for _, win := range d.Winners {
+		if win.Bunch != "toy2" {
+			t.Errorf("Bunch %s should not have been won", win.Bunch)
+		}
+	}
+}
+func Test_MARSHAL_10T_2B_9T_SAME_OWNER_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
+	inputData := `{"tickets":[{"data":"a","id":"1","owner":"o1"},{"data":"a","id":"2","owner":"o2"},{"data":"a","id":"3","owner":"o1"},{"data":"a","id":"4","owner":"o1"},{"data":"a","id":"5","owner":"o1"},{"data":"a","id":"6","owner":"o1"},{"data":"a","id":"7","owner":"o1"},{"data":"a","id":"8","owner":"o1"},{"data":"a","id":"9","owner":"o1"},{"data":"a","id":"10","owner":"o1"}],"bunches":[{"id":"toy1","nb":1},{"id":"toy2","nb":1}],"mode":"raffle","features":["max_1_per_owner"]}`
+	var data types.Data
+
+	err := json.Unmarshal([]byte(inputData), &data)
+	if err != nil {
+		t.Error(err)
+	}
+	d, _ := CreateDraw(data)
+	testNum := 2
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+	m := map[string]int{
+		"o1": 0,
+		"o2": 0,
+	}
+	mT := map[string]string{}
+
+	for _, t := range data.Tickets {
+		mT[t.Id] = t.Owner
+	}
+	for _, w := range d.Winners {
+		m[mT[w.Ticket]]++
+	}
+	for k, v := range m {
+		if v > 1 {
+			t.Errorf("Owner [%s] has [%d] winning tickets, not allowed", k, v)
+		}
+	}
 }

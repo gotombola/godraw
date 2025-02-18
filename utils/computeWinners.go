@@ -39,7 +39,7 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 			}
 			continue
 		}
-		if !tickets[ticketNumber].HasValidTimestamp(options.StartTimestamp, options.EndTimestamp) {
+		if !tickets[ticketNumber].HasValidTimestamp(options.TicketStartTimestamp, options.TicketEndTimestamp) {
 			if ticketNumber+1 == n {
 				ticketNumber = -1
 			}
