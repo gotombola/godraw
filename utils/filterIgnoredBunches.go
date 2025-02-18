@@ -1,10 +1,12 @@
 package utils
 
-import "github.com/gotombola/godraw/types"
+import (
+	"github.com/gotombola/godraw/types"
+)
 
 func FilterIgnoredBunches(data types.Data) ([]types.Bunch, error) {
 	tagsLength := len(data.Tags)
-	if len(data.IgnoredBunches) == 0 && tagsLength == 0 {
+	if len(data.IgnoredBunches) == 0 && tagsLength == 0 && data.BunchStartTimestamp == 0 && data.BunchEndTimestamp == 0 {
 		return data.Bunches, nil
 	}
 
@@ -26,6 +28,9 @@ func FilterIgnoredBunches(data types.Data) ([]types.Bunch, error) {
 			if bunch.Quantity <= 0 {
 				continue
 			}
+		}
+		if !bunch.HasValidTimestamp(data.BunchStartTimestamp, data.BunchEndTimestamp) {
+			continue
 		}
 		if tagsLength == 0 {
 			filteredBunchs = append(filteredBunchs, bunch)
