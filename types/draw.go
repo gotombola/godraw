@@ -4,4 +4,6 @@ type Draw struct {
 	Id        interface{} `json:"id"`
 	CreatedAt string      `json:"createdAt"`
 	Winners   []Winner    `json:"winners"`
+	Stats     Stats       `json:"stats"`
+	StepStats []StepStats `json:"step_stats"`
 }

@@ -251,7 +251,6 @@ func Test_10T_2B_9T_SAME_OWNER_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 		},
 	}
 	d, _ := CreateDraw(test)
-
 	if len(d.Winners) != testNum {
 		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
 	}
@@ -539,7 +538,7 @@ func Test_1MILLION_TICKETS_WITH_TIMESTAMPS(t *testing.T) {
 		Mode:                 "raffle",
 		TicketStartTimestamp: 500,
 		TicketEndTimestamp:   900,
-		Features:             []string{},
+		Features:             []string{"max_1_per_owner"},
 	}
 	_, _ = CreateDraw(test)
 	duration := time.Since(start)

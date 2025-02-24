@@ -3,10 +3,12 @@ package utils
 import (
 	"github.com/gotombola/godraw/types"
 	"math/rand"
+	"time"
 )
 
-func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types.Options) []types.Winner {
+func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types.Options) ([]types.Winner, []types.StepStats) {
 	var winners []types.Winner
+	var stepStats []types.StepStats
 	ownersWins := map[string][]types.Winner{}
 	ownersWinsTags := map[string]map[string]int{}
 	giftCounter := len(bunches)
@@ -21,28 +23,26 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 	maxAmount := options.GetMaxWinAmountPerOwnerFeature()
 	maxAmountPerTag := options.GetMaxWinAmountPerTagPerOwnerFeature()
 	for ; counter < giftCounter && counter < n; ticketNumber++ {
-		if maxAmount > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmount(ownersWins, maxAmount) {
-			if ticketNumber+1 == n {
-				ticketNumber = -1
-			}
-			continue
+		step := types.StepStats{
+			Bunch:          bunches[bunchNumber],
+			NbTickets:      n - counter,
+			NbBunches:      giftCounter - counter,
+			Ticket:         tickets[ticketNumber],
+			StartTimestamp: time.Now().Second(),
 		}
-		if maxAmountPerTag > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmountPerTag(ownersWinsTags, maxAmount, bunches[bunchNumber].Tags) {
+		if (maxAmount > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmount(ownersWins, maxAmount)) ||
+			maxAmountPerTag > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmountPerTag(ownersWinsTags, maxAmount, bunches[bunchNumber].Tags) ||
+			!tickets[ticketNumber].HasChosenBunch(bunches[bunchNumber].Id) ||
+			!tickets[ticketNumber].HasValidTimestamp(options.TicketStartTimestamp, options.TicketEndTimestamp) {
 			if ticketNumber+1 == n {
 				ticketNumber = -1
 			}
-			continue
-		}
-		if !tickets[ticketNumber].HasChosenBunch(bunches[bunchNumber].Id) {
-			if ticketNumber+1 == n {
-				ticketNumber = -1
-			}
-			continue
-		}
-		if !tickets[ticketNumber].HasValidTimestamp(options.TicketStartTimestamp, options.TicketEndTimestamp) {
-			if ticketNumber+1 == n {
-				ticketNumber = -1
-			}
+			endTimestamp := time.Now().Second()
+			step.EndTimestamp = endTimestamp
+			step.Duration = endTimestamp - step.StartTimestamp
+			step.NbTicketsAfterDraw = n - counter
+			step.NbBunchesAfterDraw = giftCounter - counter
+			stepStats = append(stepStats, step)
 			continue
 		}
 		counter, bunchNumber, giftCounter, quantity, ticketNumber, winner =
@@ -61,7 +61,14 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 		if ticketNumber+1 == n {
 			ticketNumber = -1
 		}
+		endTimestamp := time.Now().Second()
+		step.EndTimestamp = endTimestamp
+		step.Duration = endTimestamp - step.StartTimestamp
+		step.NbTicketsAfterDraw = n - counter
+		step.NbBunchesAfterDraw = giftCounter - counter
+		stepStats = append(stepStats, step)
+
 	}
 
-	return winners
+	return winners, stepStats
 }
