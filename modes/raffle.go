@@ -16,8 +16,8 @@ func Raffle(data types.Data) (types.Draw, error) {
 		Stats: types.Stats{
 			NbTickets:      len(data.Tickets),
 			StartTimestamp: startTimestamp,
+			Steps:          make([]types.StepStats, 0),
 		},
-		StepStats: make([]types.StepStats, 0),
 	}
 
 	data.Bunches, _ = utils.FilterIgnoredBunches(data)
@@ -62,27 +62,27 @@ func Raffle(data types.Data) (types.Draw, error) {
 	)
 
 	draw.Winners = winners
-	draw.StepStats = stepStats
+	draw.Stats.Steps = stepStats
 
 	participantWins := map[string]int{}
-	max := 0
+	vMax := 0
 	for _, w := range winners {
 		_, exist := participantWins[w.TicketOwner]
 		if !exist {
 			participantWins[w.TicketOwner] = 1
-			if max == 0 {
-				max = 1
+			if vMax == 0 {
+				vMax = 1
 			}
 			continue
 		}
 		participantWins[w.TicketOwner]++
-		if participantWins[w.TicketOwner] > max {
-			max = participantWins[w.TicketOwner]
+		if participantWins[w.TicketOwner] > vMax {
+			vMax = participantWins[w.TicketOwner]
 		}
 	}
 
 	winDistribution := map[int]int{}
-	for i := 1; i < max+1; i++ {
+	for i := 1; i < vMax+1; i++ {
 		winDistribution[i] = 0
 		for _, nb := range participantWins {
 			if i == nb {
@@ -93,26 +93,26 @@ func Raffle(data types.Data) (types.Draw, error) {
 	sumNb := 0
 	sumPercent := 0.0
 	for nb, val := range winDistribution {
-		percent := float64(val) * 100.0 / float64(draw.Stats.NbParticipants)
+		percent := float64(val) / float64(draw.Stats.NbParticipants)
 		draw.Stats.NbWinnersExactly = append(draw.Stats.NbWinnersExactly, types.WinnersStats{
-			NbBunches: nb,
-			Value:     val,
+			Index: nb,
+			Value: val,
 		})
 		draw.Stats.PercentWinnersExactly = append(draw.Stats.PercentWinnersExactly, types.WinnersPercentStats{
-			NbBunches: nb,
-			Value:     percent,
+			Index: nb,
+			Value: percent,
 		})
 
 		sumNb += nb
 		sumPercent += percent
 
 		draw.Stats.NbWinnersAtLeast = append(draw.Stats.NbWinnersAtLeast, types.WinnersStats{
-			NbBunches: nb,
-			Value:     sumNb,
+			Index: nb,
+			Value: sumNb,
 		})
 		draw.Stats.PercentWinnersAtLeast = append(draw.Stats.PercentWinnersAtLeast, types.WinnersPercentStats{
-			NbBunches: nb,
-			Value:     sumPercent,
+			Index: nb,
+			Value: sumPercent,
 		})
 	}
 

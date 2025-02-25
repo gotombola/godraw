@@ -1,19 +1,21 @@
 package types
 
 type Stats struct {
-	NbTickets             int                   `json:"nb_tickets"`
-	NbDraws               int                   `json:"nb_draws"`
-	NbParticipants        int                   `json:"nb_participants"`
-	PercentWinnersAtLeast []WinnersPercentStats `json:"percent_winners_at_least"`
-	NbWinnersAtLeast      []WinnersStats        `json:"nb_winners_at_least"`
-	PercentWinnersExactly []WinnersPercentStats `json:"percent_winners_exactly"`
-	NbWinnersExactly      []WinnersStats        `json:"nb_winners_exactly"`
-	StartTimestamp        int                   `json:"start_timestamp"`
-	EndTimestamp          int                   `json:"end_timestamp"`
+	NbTickets             int                   `json:"tickets"`
+	NbDraws               int                   `json:"draws"`
+	NbParticipants        int                   `json:"participants"`
+	PercentWinnersAtLeast []WinnersPercentStats `json:"winnersAtLeastPercent"`
+	NbWinnersAtLeast      []WinnersStats        `json:"winnersAtLeast"`
+	PercentWinnersExactly []WinnersPercentStats `json:"winnersExactlyPercent"`
+	NbWinnersExactly      []WinnersStats        `json:"winnersExactly"`
+	StartTimestamp        int                   `json:"startTime"`
+	EndTimestamp          int                   `json:"endTime"`
 	Duration              int                   `json:"duration"`
+	Steps                 []StepStats           `json:"steps"`
 }
 
 type StepStats struct {
+	Index              int    `json:"i"`
 	Bunch              Bunch  `json:"b"`
 	NbTickets          int    `json:"nbt"`
 	NbBunches          int    `json:"nbb"`
@@ -26,11 +28,11 @@ type StepStats struct {
 }
 
 type WinnersStats struct {
-	NbBunches int `json:"nbb"`
-	Value     int `json:"v"`
+	Index int `json:"i"`
+	Value int `json:"v"`
 }
 
 type WinnersPercentStats struct {
-	NbBunches int     `json:"nbb"`
-	Value     float64 `json:"v"`
+	Index int     `json:"i"`
+	Value float64 `json:"v"`
 }

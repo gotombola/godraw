@@ -5,5 +5,4 @@ type Draw struct {
 	CreatedAt string      `json:"createdAt"`
 	Winners   []Winner    `json:"winners"`
 	Stats     Stats       `json:"stats"`
-	StepStats []StepStats `json:"step_stats"`
 }

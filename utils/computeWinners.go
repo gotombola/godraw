@@ -24,6 +24,7 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 	maxAmountPerTag := options.GetMaxWinAmountPerTagPerOwnerFeature()
 	for ; counter < giftCounter && counter < n; ticketNumber++ {
 		step := types.StepStats{
+			Index:          giftCounter - counter,
 			Bunch:          bunches[bunchNumber],
 			NbTickets:      n - counter,
 			NbBunches:      giftCounter - counter,
