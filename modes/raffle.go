@@ -31,20 +31,40 @@ func Raffle(data types.Data) (types.Draw, error) {
 		return draw, nil
 	}
 
+	bunchOwners := make(map[string]types.BunchStats, 0)
 	nbDraws := 0
 	for _, b := range data.Bunches {
+		bunchOwners[b.Id] = types.BunchStats{
+			Bunch:                          b.Id,
+			NbOwnersHavingExplicitlyChosen: 0,
+		}
 		nbDraws += b.Quantity
 	}
 	draw.Stats.NbDraws = nbDraws
 
-	participant := map[string]bool{}
+	owners := map[string]int{}
 	for _, t := range data.Tickets {
-		_, exist := participant[t.Owner]
+		_, exist := owners[t.Owner]
 		if !exist {
-			participant[t.Owner] = true
+			owners[t.Owner] = 1
+		} else {
+			owners[t.Owner]++
+		}
+		if len(t.ChosenBunches) == 0 {
+			continue
+		}
+		for _, b := range t.ChosenBunches {
+			bs := bunchOwners[b]
+			bs.NbOwnersHavingExplicitlyChosen++
+			bunchOwners[b] = bs
 		}
 	}
-	draw.Stats.NbParticipants = len(participant)
+	draw.Stats.NbOwners = len(owners)
+	bs := make([]types.BunchStats, 0)
+	for _, bo := range bunchOwners {
+		bs = append(bs, bo)
+	}
+	draw.Stats.BunchStats = bs
 
 	if data.PartialDraw && len(data.Tickets) > data.PartialMaxWinners {
 		data.Tickets = data.Tickets[0:data.PartialMaxWinners]
@@ -54,37 +74,36 @@ func Raffle(data types.Data) (types.Draw, error) {
 	winners, stepStats := utils.ComputeWinners(
 		data.Tickets,
 		data.Bunches,
+		owners,
 		types.Options{
-			Features:             data.Features,
-			TicketStartTimestamp: data.TicketStartTimestamp,
-			TicketEndTimestamp:   data.TicketEndTimestamp,
+			Features: data.Features,
 		},
 	)
 
 	draw.Winners = winners
 	draw.Stats.Steps = stepStats
 
-	participantWins := map[string]int{}
+	ownerWins := map[string]int{}
 	vMax := 0
 	for _, w := range winners {
-		_, exist := participantWins[w.TicketOwner]
+		_, exist := ownerWins[w.TicketOwner]
 		if !exist {
-			participantWins[w.TicketOwner] = 1
+			ownerWins[w.TicketOwner] = 1
 			if vMax == 0 {
 				vMax = 1
 			}
 			continue
 		}
-		participantWins[w.TicketOwner]++
-		if participantWins[w.TicketOwner] > vMax {
-			vMax = participantWins[w.TicketOwner]
+		ownerWins[w.TicketOwner]++
+		if ownerWins[w.TicketOwner] > vMax {
+			vMax = ownerWins[w.TicketOwner]
 		}
 	}
 
 	winDistribution := map[int]int{}
 	for i := 1; i < vMax+1; i++ {
 		winDistribution[i] = 0
-		for _, nb := range participantWins {
+		for _, nb := range ownerWins {
 			if i == nb {
 				winDistribution[i] += 1
 			}
@@ -93,7 +112,7 @@ func Raffle(data types.Data) (types.Draw, error) {
 	sumNb := 0
 	sumPercent := 0.0
 	for nb, val := range winDistribution {
-		percent := float64(val) / float64(draw.Stats.NbParticipants)
+		percent := float64(val) / float64(draw.Stats.NbOwners)
 		draw.Stats.NbWinnersExactly = append(draw.Stats.NbWinnersExactly, types.WinnersStats{
 			Index: nb,
 			Value: val,
