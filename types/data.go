@@ -9,9 +9,9 @@ type Data struct {
 	PartialDraw          bool     `json:"partialDraw,omitempty"`
 	PartialMaxWinners    int      `json:"partialMaxWinners,omitempty"`
 	IgnoredBunches       []Bunch  `json:"ignoredBunches,omitempty"`
-	TicketStartTimestamp int      `json:"tsts,omitempty"`
-	TicketEndTimestamp   int      `json:"tets,omitempty"`
-	BunchStartTimestamp  int      `json:"bsts,omitempty"`
-	BunchEndTimestamp    int      `json:"bets,omitempty"`
+	TicketStartTimestamp int64    `json:"ticketStartTime,omitempty"`
+	TicketEndTimestamp   int64    `json:"ticketEndTime,omitempty"`
+	BunchStartTimestamp  int64    `json:"bunchStartTime,omitempty"`
+	BunchEndTimestamp    int64    `json:"bunchEndTime,omitempty"`
 	Tags                 []string `json:"tags,omitempty"`
 }

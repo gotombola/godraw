@@ -5,7 +5,7 @@ type Ticket struct {
 	Id            string   `json:"id,omitempty"`
 	Owner         string   `json:"owner,omitempty"`
 	ChosenBunches []string `json:"b,omitempty"`
-	Timestamp     int      `json:"ts,omitempty"`
+	Timestamp     int64    `json:"ts,omitempty"`
 }
 
 func (ticket Ticket) HasOwnerAlreadyWonMaxAmount(ownersWins map[string][]Winner, max int) bool {
@@ -47,7 +47,7 @@ func (ticket Ticket) HasChosenBunch(bunch string) bool {
 	return false
 }
 
-func (ticket Ticket) HasValidTimestamp(start int, end int) bool {
+func (ticket Ticket) HasValidTimestamp(start int64, end int64) bool {
 	if start == 0 && end == 0 {
 		return true
 	}

@@ -422,7 +422,7 @@ func Test_9T_3B_MAX_1_TAG(t *testing.T) {
 	}
 }
 func Test_Bunch_JSON_Marshalling(t *testing.T) {
-	originalJSON := `{"id":"1","data":"data","nb":5,"ro":2,"t":["tag1","tag2"]}`
+	originalJSON := `{"id":"1","data":"data","nb":5,"ro":2,"tags":["tag1","tag2"]}`
 	var bunch types.Bunch
 	err := json.Unmarshal([]byte(originalJSON), &bunch)
 	if err != nil {
@@ -520,7 +520,7 @@ func Test_1MILLION_TICKETS_WITH_TIMESTAMPS(t *testing.T) {
 			Data:      "data",
 			Id:        fmt.Sprintf("%d", i),
 			Owner:     fmt.Sprintf("o%d", rand.Intn(1000)),
-			Timestamp: rand.Intn(1000),
+			Timestamp: int64(rand.Intn(1000)),
 		}
 	}
 

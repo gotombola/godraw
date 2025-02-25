@@ -7,8 +7,8 @@ type Bunch struct {
 	Data       string   `json:"data,omitempty"`
 	Quantity   int      `json:"nb,omitempty"`
 	RankOffset int      `json:"ro,omitempty"`
-	Timestamp  int      `json:"ts,omitempty"`
-	Tags       []string `json:"t,omitempty"`
+	Timestamp  int64    `json:"ts,omitempty"`
+	Tags       []string `json:"tags,omitempty"`
 }
 
 func (b *Bunch) UnmarshalJSON(text []byte) error {
@@ -27,7 +27,7 @@ func (b *Bunch) UnmarshalJSON(text []byte) error {
 	return nil
 }
 
-func (bunch Bunch) HasValidTimestamp(start int, end int) bool {
+func (bunch Bunch) HasValidTimestamp(start int64, end int64) bool {
 	if start == 0 && end == 0 {
 		return true
 	}

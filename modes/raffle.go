@@ -8,7 +8,7 @@ import (
 )
 
 func Raffle(data types.Data) (types.Draw, error) {
-	startTimestamp := time.Now().Second()
+	startTimestamp := time.Now().UnixMilli()
 	draw := types.Draw{
 		Id:        gouuid.V4(),
 		CreatedAt: time.Now().Format(time.RFC3339),
@@ -116,7 +116,7 @@ func Raffle(data types.Data) (types.Draw, error) {
 		})
 	}
 
-	endTimestamp := time.Now().Second()
+	endTimestamp := time.Now().UnixMilli()
 	draw.Stats.EndTimestamp = endTimestamp
 	draw.Stats.Duration = endTimestamp - startTimestamp
 	return draw, nil

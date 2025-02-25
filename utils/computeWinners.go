@@ -29,7 +29,7 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 			NbTickets:      n - counter,
 			NbBunches:      giftCounter - counter,
 			Ticket:         tickets[ticketNumber],
-			StartTimestamp: time.Now().Second(),
+			StartTimestamp: time.Now().UnixMilli(),
 		}
 		if (maxAmount > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmount(ownersWins, maxAmount)) ||
 			maxAmountPerTag > 0 && tickets[ticketNumber].HasOwnerAlreadyWonMaxAmountPerTag(ownersWinsTags, maxAmount, bunches[bunchNumber].Tags) ||
@@ -38,7 +38,7 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 			if ticketNumber+1 == n {
 				ticketNumber = -1
 			}
-			endTimestamp := time.Now().Second()
+			endTimestamp := time.Now().UnixMilli()
 			step.EndTimestamp = endTimestamp
 			step.Duration = endTimestamp - step.StartTimestamp
 			step.NbTicketsAfterDraw = n - counter
@@ -62,7 +62,7 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, options types
 		if ticketNumber+1 == n {
 			ticketNumber = -1
 		}
-		endTimestamp := time.Now().Second()
+		endTimestamp := time.Now().UnixMilli()
 		step.EndTimestamp = endTimestamp
 		step.Duration = endTimestamp - step.StartTimestamp
 		step.NbTicketsAfterDraw = n - counter

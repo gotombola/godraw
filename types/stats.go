@@ -8,31 +8,31 @@ type Stats struct {
 	NbWinnersAtLeast      []WinnersStats        `json:"winnersAtLeast"`
 	PercentWinnersExactly []WinnersPercentStats `json:"winnersExactlyPercent"`
 	NbWinnersExactly      []WinnersStats        `json:"winnersExactly"`
-	StartTimestamp        int                   `json:"startTime"`
-	EndTimestamp          int                   `json:"endTime"`
-	Duration              int                   `json:"duration"`
+	StartTimestamp        int64                 `json:"startTime"`
+	EndTimestamp          int64                 `json:"endTime"`
+	Duration              int64                 `json:"duration"`
 	Steps                 []StepStats           `json:"steps"`
 }
 
 type StepStats struct {
 	Index              int    `json:"i"`
-	Bunch              Bunch  `json:"b"`
-	NbTickets          int    `json:"nbt"`
-	NbBunches          int    `json:"nbb"`
-	NbTicketsAfterDraw int    `json:"nbta"`
-	NbBunchesAfterDraw int    `json:"nbtb"`
-	Ticket             Ticket `json:"t"`
-	StartTimestamp     int    `json:"sts"`
-	EndTimestamp       int    `json:"ets"`
-	Duration           int    `json:"d"`
+	Bunch              Bunch  `json:"bunch"`
+	NbTickets          int    `json:"ticketsBefore"`
+	NbTicketsAfterDraw int    `json:"ticketsAfter"`
+	NbBunches          int    `json:"bunchesBefore"`
+	NbBunchesAfterDraw int    `json:"bunchesAfter"`
+	Ticket             Ticket `json:"ticket"`
+	StartTimestamp     int64  `json:"startTime"`
+	EndTimestamp       int64  `json:"endTime"`
+	Duration           int64  `json:"duration"`
 }
 
 type WinnersStats struct {
-	Index int `json:"i"`
-	Value int `json:"v"`
+	Index int `json:"index"`
+	Value int `json:"value"`
 }
 
 type WinnersPercentStats struct {
-	Index int     `json:"i"`
-	Value float64 `json:"v"`
+	Index int     `json:"index"`
+	Value float64 `json:"value"`
 }
