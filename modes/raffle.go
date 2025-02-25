@@ -109,29 +109,37 @@ func Raffle(data types.Data) (types.Draw, error) {
 			}
 		}
 	}
-	sumNb := 0
-	sumPercent := 0.0
 	for nb, val := range winDistribution {
-		percent := float64(val) / float64(draw.Stats.NbOwners)
 		draw.Stats.NbWinnersExactly = append(draw.Stats.NbWinnersExactly, types.WinnersStats{
 			Index: nb,
 			Value: val,
 		})
 		draw.Stats.PercentWinnersExactly = append(draw.Stats.PercentWinnersExactly, types.WinnersPercentStats{
 			Index: nb,
-			Value: percent,
+			Value: float64(val) / float64(draw.Stats.NbOwners),
 		})
+	}
+	n := len(winDistribution)
+	cumulativeNb := make([]int, n)
+	cumulativePercent := make([]float64, n)
 
-		sumNb += nb
-		sumPercent += percent
+	runningNb := 0
+	runningPercent := 0.0
+	for i := n - 1; i >= 0; i-- {
+		runningNb += winDistribution[i]
+		cumulativeNb[i] = runningNb
 
+		runningPercent += float64(winDistribution[i]) / float64(draw.Stats.NbOwners)
+		cumulativePercent[i] = runningPercent
+	}
+	for i := 1; i < n; i++ {
 		draw.Stats.NbWinnersAtLeast = append(draw.Stats.NbWinnersAtLeast, types.WinnersStats{
-			Index: nb,
-			Value: sumNb,
+			Index: i,
+			Value: cumulativeNb[i],
 		})
 		draw.Stats.PercentWinnersAtLeast = append(draw.Stats.PercentWinnersAtLeast, types.WinnersPercentStats{
-			Index: nb,
-			Value: sumPercent,
+			Index: i,
+			Value: cumulativePercent[i],
 		})
 	}
 
