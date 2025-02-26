@@ -44,11 +44,15 @@ func Raffle(data types.Data) (types.Draw, error) {
 
 	owners := map[string]int{}
 	for _, t := range data.Tickets {
-		_, exist := owners[t.Owner]
+		owner := t.Owner
+		if owner == "" {
+			owner = "unnamed_" + t.Id
+		}
+		_, exist := owners[owner]
 		if !exist {
-			owners[t.Owner] = 1
+			owners[owner] = 1
 		} else {
-			owners[t.Owner]++
+			owners[owner]++
 		}
 		if len(t.ChosenBunches) == 0 {
 			continue
