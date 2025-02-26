@@ -90,17 +90,21 @@ func Raffle(data types.Data) (types.Draw, error) {
 	ownerWins := map[string]int{}
 	vMax := 0
 	for _, w := range winners {
-		_, exist := ownerWins[w.TicketOwner]
+		owner := w.TicketOwner
+		if owner == "" {
+			owner = "unnamed_" + w.Ticket
+		}
+		_, exist := ownerWins[owner]
 		if !exist {
-			ownerWins[w.TicketOwner] = 1
+			ownerWins[owner] = 1
 			if vMax == 0 {
 				vMax = 1
 			}
 			continue
 		}
-		ownerWins[w.TicketOwner]++
-		if ownerWins[w.TicketOwner] > vMax {
-			vMax = ownerWins[w.TicketOwner]
+		ownerWins[owner]++
+		if ownerWins[owner] > vMax {
+			vMax = ownerWins[owner]
 		}
 	}
 
