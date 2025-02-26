@@ -278,6 +278,7 @@ func Test_9T_2B_9T_SAME_OWNER_NO_FEATURE_MAX_1_PER_OWNER(t *testing.T) {
 	test := Data{
 		Tickets: []types.Ticket{
 			{Data: "a", Id: "1", Owner: multipleOwnerId},
+			{Data: "a", Id: "2", Owner: multipleOwnerId},
 			{Data: "a", Id: "3", Owner: multipleOwnerId},
 			{Data: "a", Id: "4", Owner: multipleOwnerId},
 			{Data: "a", Id: "5", Owner: multipleOwnerId},

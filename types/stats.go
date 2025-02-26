@@ -16,16 +16,19 @@ type Stats struct {
 }
 
 type StepStats struct {
-	Index              int    `json:"i"`
-	Bunch              string `json:"bunch"`
-	NbTickets          int    `json:"ticketsBefore"`
-	NbTicketsAfterDraw int    `json:"ticketsAfter"`
-	NbBunches          int    `json:"bunchesBefore"`
-	NbBunchesAfterDraw int    `json:"bunchesAfter"`
-	Ticket             string `json:"ticket"`
-	StartTimestamp     int64  `json:"startTime"`
-	EndTimestamp       int64  `json:"endTime"`
-	Duration           int64  `json:"duration"`
+	Index              int      `json:"i"`
+	Bunch              string   `json:"bunch"`
+	NbTickets          int      `json:"ticketsBefore"`
+	NbTicketsAfterDraw int      `json:"ticketsAfter"`
+	TicketPosition     int      `json:"ticketPosition"`
+	PreviousTenTickets []Ticket `json:"previousTenTickets"`
+	NextTenTickets     []Ticket `json:"nextTenTickets"`
+	NbBunches          int      `json:"bunchesBefore"`
+	NbBunchesAfterDraw int      `json:"bunchesAfter"`
+	Ticket             string   `json:"ticket"`
+	StartTimestamp     int64    `json:"startTime"`
+	EndTimestamp       int64    `json:"endTime"`
+	Duration           int64    `json:"duration"`
 }
 
 type WinnersStats struct {
