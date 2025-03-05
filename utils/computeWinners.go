@@ -27,7 +27,9 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, owners map[st
 	var winner types.Winner
 	maxAmount := options.GetMaxWinAmountPerOwnerFeature()
 	maxAmountPerTag := options.GetMaxWinAmountPerTagPerOwnerFeature()
-	for ; counter < giftCounter && counter < n; ticketNumber++ {
+	loops := 0
+	for ; counter < giftCounter && counter < n && loops < n+1; ticketNumber++ {
+		loops++
 		previousTen := make([]types.Ticket, 0)
 		nextTen := make([]types.Ticket, 0)
 		if ticketNumber > 10 {
@@ -92,7 +94,6 @@ func ComputeWinners(tickets []types.Ticket, bunches []types.Bunch, owners map[st
 		step.NbTicketsAfterDraw = n - counter - ignoredOwnersTicketsCounter
 		step.NbBunchesAfterDraw = nbDraws - counter
 		stepStats = append(stepStats, step)
-
 	}
 
 	return winners, stepStats

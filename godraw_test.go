@@ -139,6 +139,35 @@ func Test_3T_1B_4Q_3W(t *testing.T) {
 	}
 }
 
+func Test_1T_2B_1Q_1W(t *testing.T) {
+	testNum := 1
+	test := Data{
+		Tickets: []types.Ticket{{Data: "a", Id: "1"}},
+		Bunches: []types.Bunch{{Id: "toy1", Quantity: 1}, {Id: "toy2", Quantity: 1}},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
+func Test_2T_2B_2Q_1W_1PW(t *testing.T) {
+	testNum := 1
+	test := Data{
+		Tickets: []types.Ticket{{Data: "a", Id: "1", Owner: "a"}, {Data: "a", Id: "1", Owner: "a"}},
+		Bunches: []types.Bunch{{Id: "toy1", Quantity: 1}, {Id: "toy2", Quantity: 1}},
+		Features: []string{
+			"max_1_per_owner",
+		},
+	}
+	d, _ := CreateDraw(test)
+
+	if len(d.Winners) != testNum {
+		t.Errorf("Expected %d, got %d", testNum, len(d.Winners))
+	}
+}
+
 func Test_3T_2B_1Q_2Q_3W(t *testing.T) {
 	testNum := 3
 	test := Data{
